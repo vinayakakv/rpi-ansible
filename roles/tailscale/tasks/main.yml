@@ -1,9 +1,4 @@
 ---
-- name: Ensure tailscale_auth_key is set
-  ansible.builtin.assert:
-    that: tailscale_auth_key != ''
-    fail_msg: "TAILSCALE_AUTH_KEY env var must be set"
-
 - name: Add Tailscale GPG key
   ansible.builtin.shell:
     cmd: >
@@ -41,4 +36,6 @@
     --auth-key={{ tailscale_auth_key }}
     --accept-dns
     --ssh
-  when: "'Logged out' in tailscale_status.stdout or tailscale_status.rc != 0"
+  when:
+    - tailscale_auth_key != ''
+    - "'Logged out' in tailscale_status.stdout or tailscale_status.rc != 0"
