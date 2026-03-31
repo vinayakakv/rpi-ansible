@@ -3,6 +3,7 @@
   ansible.builtin.apt:
     name:
       - lvm2
+      - ncdu
     state: present
     update_cache: true
 
