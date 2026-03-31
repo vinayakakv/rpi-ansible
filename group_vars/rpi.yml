@@ -1,0 +1,6 @@
+ansible_host: "{{ lookup('env', 'RPI_HOST') | default('raspberrypi.local', true) }}"
+ansible_user: "{{ lookup('env', 'RPI_USER') | default('pi', true) }}"
+
+docker_user: "{{ lookup('env', 'RPI_USER') | default('pi', true) }}"
+
+ansible_python_interpreter: /usr/bin/python3

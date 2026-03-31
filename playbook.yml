@@ -1,0 +1,7 @@
+---
+- name: Configure Raspberry Pi
+  hosts: rpi
+  become: true
+
+  roles:
+    - docker
