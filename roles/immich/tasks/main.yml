@@ -1,9 +1,4 @@
 ---
-- name: Ensure immich_db_password is set
-  ansible.builtin.assert:
-    that: immich_db_password != ''
-    fail_msg: "IMMICH_DB_PASSWORD env var must be set"
-
 - name: Create immich directory
   ansible.builtin.file:
     path: "/home/{{ ansible_user }}/immich"
