@@ -8,8 +8,17 @@ ansible_python_interpreter: /usr/bin/python3
 photos_lv_path: "{{ lookup('env', 'PHOTOS_LV_PATH') | default('', true) }}"
 photos_mount_path: "{{ lookup('env', 'PHOTOS_PATH') | default('/mnt/photos', true) }}"
 
+tailscale_auth_key: "{{ lookup('env', 'TAILSCALE_AUTH_KEY') | default('', true) }}"
+
 immich_upload_location: "{{ lookup('env', 'IMMICH_UPLOAD_LOCATION') | default('/mnt/photos/immich', true) }}"
 immich_db_data_location: "{{ lookup('env', 'IMMICH_DB_DATA_LOCATION') | default('/home/pi/immich/postgres', true) }}"
-immich_db_password: "{{ lookup('env', 'IMMICH_DB_PASSWORD') | default('', true) }}"
+immich_db_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          35303738663462396363393039353535396435613331366439636335316534323239386666386133
+          6238633666626332666532333337353563396432333437620a643830633862616639623262623333
+          64343235636539666637653065326663616364643738353361373664653732353366343234346134
+          6561346262623831370a666535626263623834316563313235373463323436396431373637353438
+          66343361626639653161383839636637623930396239393839363866313436303864666666366463
+          6465666137643131313530313234623466623234613833323633
 immich_version: "{{ lookup('env', 'IMMICH_VERSION') | default('release', true) }}"
 immich_tz: "{{ lookup('env', 'TZ') | default('', true) }}"
