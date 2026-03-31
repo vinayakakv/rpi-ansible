@@ -1,0 +1,31 @@
+---
+- name: Install system packages
+  ansible.builtin.apt:
+    name:
+      - lvm2
+    state: present
+    update_cache: true
+
+- name: Ensure photos_lv_path is set
+  ansible.builtin.assert:
+    that: photos_lv_path != ''
+    fail_msg: "PHOTOS_LV_PATH env var must be set"
+
+- name: Activate LVM logical volume
+  ansible.builtin.command:
+    cmd: "lvchange -ay {{ photos_lv_path }}"
+  changed_when: false
+
+- name: Create photos mount directory
+  ansible.builtin.file:
+    path: "{{ photos_mount_path }}"
+    state: directory
+    mode: "0755"
+
+- name: Mount photos partition
+  ansible.posix.mount:
+    path: "{{ photos_mount_path }}"
+    src: "{{ photos_lv_path }}"
+    fstype: btrfs
+    opts: defaults
+    state: mounted
