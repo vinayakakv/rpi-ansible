@@ -7,3 +7,9 @@ ansible_python_interpreter: /usr/bin/python3
 
 photos_lv_path: "{{ lookup('env', 'PHOTOS_LV_PATH') | default('', true) }}"
 photos_mount_path: "{{ lookup('env', 'PHOTOS_PATH') | default('/mnt/photos', true) }}"
+
+immich_upload_location: "{{ lookup('env', 'IMMICH_UPLOAD_LOCATION') | default('/mnt/photos/immich', true) }}"
+immich_db_data_location: "{{ lookup('env', 'IMMICH_DB_DATA_LOCATION') | default('/home/pi/immich/postgres', true) }}"
+immich_db_password: "{{ lookup('env', 'IMMICH_DB_PASSWORD') | default('', true) }}"
+immich_version: "{{ lookup('env', 'IMMICH_VERSION') | default('release', true) }}"
+immich_tz: "{{ lookup('env', 'TZ') | default('', true) }}"
