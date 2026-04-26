@@ -33,7 +33,7 @@ All variables are in `group_vars/rpi.yml`. Most are driven by environment variab
 | `TAILSCALE_AUTH_KEY` | _(none)_ | Yes | Auth key from the Tailscale admin console (Settings → Keys) |
 | `IMMICH_UPLOAD_LOCATION` | `/mnt/photos/immich` | No | Path where Immich stores uploaded photos and videos |
 | `IMMICH_DB_DATA_LOCATION` | `/home/pi/immich/postgres` | No | Path where Postgres data is stored (must be local, not a network share) |
-| `IMMICH_VERSION` | `release` | No | Immich version to deploy (e.g. `v2.6.3`); defaults to latest stable |
+| `IMMICH_VERSION` | `release` | No | Immich version to deploy (e.g. `v2.6.3`) |
 | `TZ` | _(UTC)_ | No | Timezone for Immich containers (e.g. `Europe/London`) |
 
 `immich_db_password` is stored as an Ansible Vault encrypted value in `group_vars/rpi.yml`.
