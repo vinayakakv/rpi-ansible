@@ -17,7 +17,13 @@
     dest: "/home/{{ ansible_user }}/immich/.env"
     mode: "0600"
 
+- name: Create shared Immich public network
+  community.docker.docker_network:
+    name: "{{ immich_public_network }}"
+    state: present
+
 - name: Start Immich stack
   community.docker.docker_compose_v2:
     project_src: "/home/{{ ansible_user }}/immich"
     state: present
+    remove_orphans: true

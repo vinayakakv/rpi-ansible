@@ -1,0 +1,27 @@
+name: immich-public-proxy
+
+services:
+  immich-public-proxy:
+    container_name: immich_public_proxy
+    image: alangrainger/immich-public-proxy:${IMMICH_PUBLIC_PROXY_VERSION:-1.15.6}
+    environment:
+      PUBLIC_BASE_URL: ${IMMICH_PUBLIC_PROXY_PUBLIC_BASE_URL}
+      IMMICH_URL: http://immich-server:2283
+    volumes:
+      - ./config.json:/app/config.json:ro
+    ports:
+      - '${IMMICH_PUBLIC_PROXY_HOST:-127.0.0.1}:${IMMICH_PUBLIC_PROXY_PORT:-3000}:3000'
+    networks:
+      immich_public:
+        aliases:
+          - immich-public-proxy
+    restart: always
+    healthcheck:
+      test: curl -s http://localhost:3000/share/healthcheck -o /dev/null || exit 1
+      start_period: 10s
+      timeout: 5s
+
+networks:
+  immich_public:
+    name: ${IMMICH_PUBLIC_NETWORK:-immich_public}
+    external: true

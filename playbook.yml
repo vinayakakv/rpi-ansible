@@ -4,7 +4,15 @@
   become: true
 
   roles:
-    - system
-    - docker
-    - tailscale
-    - immich
+    - role: system
+      tags: system
+    - role: docker
+      tags: docker
+    - role: tailscale
+      tags: tailscale
+    - role: immich
+      tags: immich
+    - role: immich_public_proxy
+      tags: immich_public_proxy
+    - role: cloudflared
+      tags: cloudflared

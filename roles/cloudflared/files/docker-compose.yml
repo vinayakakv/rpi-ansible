@@ -1,0 +1,15 @@
+name: cloudflared
+
+services:
+  cloudflared:
+    container_name: cloudflared
+    image: cloudflare/cloudflared:${CLOUDFLARED_VERSION:-2026.6.0}
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARED_TUNNEL_TOKEN}
+    networks:
+      - immich_public
+    restart: always
+
+networks:
+  immich_public:
+    name: ${IMMICH_PUBLIC_NETWORK:-immich_public}
+    external: true

@@ -1,0 +1,34 @@
+---
+- name: Create immich-public-proxy directory
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/immich-public-proxy"
+    state: directory
+    mode: "0755"
+
+- name: Deploy docker-compose.yml
+  ansible.builtin.copy:
+    src: docker-compose.yml
+    dest: "/home/{{ ansible_user }}/immich-public-proxy/docker-compose.yml"
+    mode: "0644"
+
+- name: Deploy .env
+  ansible.builtin.template:
+    src: .env.j2
+    dest: "/home/{{ ansible_user }}/immich-public-proxy/.env"
+    mode: "0600"
+
+- name: Deploy config.json
+  ansible.builtin.template:
+    src: config.json.j2
+    dest: "/home/{{ ansible_user }}/immich-public-proxy/config.json"
+    mode: "0644"
+
+- name: Create shared Immich public network
+  community.docker.docker_network:
+    name: "{{ immich_public_network }}"
+    state: present
+
+- name: Start immich-public-proxy stack
+  community.docker.docker_compose_v2:
+    project_src: "/home/{{ ansible_user }}/immich-public-proxy"
+    state: present

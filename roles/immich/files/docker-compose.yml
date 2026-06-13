@@ -10,7 +10,14 @@ services:
     env_file:
       - .env
     ports:
-      - '2283:2283'
+      - '${IMMICH_PUBLISHED_HOST:-127.0.0.1}:${IMMICH_PUBLISHED_PORT:-2283}:2283'
+    networks:
+      default:
+        aliases:
+          - immich-server
+      immich_public:
+        aliases:
+          - immich-server
     depends_on:
       - redis
       - database
@@ -25,6 +32,10 @@ services:
       - model-cache:/cache
     env_file:
       - .env
+    networks:
+      default:
+        aliases:
+          - immich-machine-learning
     restart: always
     healthcheck:
       disable: false
@@ -34,6 +45,10 @@ services:
     image: docker.io/valkey/valkey:9@sha256:3eeb09785cd61ec8e3be35f8804c8892080f3ca21934d628abc24ee4ed1698f6
     healthcheck:
       test: redis-cli ping || exit 1
+    networks:
+      default:
+        aliases:
+          - redis
     restart: always
 
   database:
@@ -47,6 +62,10 @@ services:
       DB_STORAGE_TYPE: 'HDD'
     volumes:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
+    networks:
+      default:
+        aliases:
+          - database
     shm_size: 128mb
     restart: always
     healthcheck:
@@ -54,3 +73,10 @@ services:
 
 volumes:
   model-cache:
+
+networks:
+  default:
+    name: immich_default
+  immich_public:
+    name: ${IMMICH_PUBLIC_NETWORK:-immich_public}
+    external: true
