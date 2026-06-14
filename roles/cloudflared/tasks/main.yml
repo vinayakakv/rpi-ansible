@@ -1,21 +1,22 @@
 ---
-- name: Validate Cloudflare Tunnel token
-  ansible.builtin.assert:
-    that:
-      - cloudflared_tunnel_token | length > 0
-    fail_msg: "Set CLOUDFLARED_TUNNEL_TOKEN to the token from the Cloudflare Tunnel setup screen."
+- name: Warn when Cloudflare Tunnel token is not set
+  ansible.builtin.debug:
+    msg: "Skipping cloudflared role because CLOUDFLARED_TUNNEL_TOKEN is not set."
+  when: cloudflared_tunnel_token | length == 0
 
 - name: Create cloudflared directory
   ansible.builtin.file:
     path: "/home/{{ ansible_user }}/cloudflared"
     state: directory
     mode: "0755"
+  when: cloudflared_tunnel_token | length > 0
 
 - name: Deploy docker-compose.yml
   ansible.builtin.copy:
     src: docker-compose.yml
     dest: "/home/{{ ansible_user }}/cloudflared/docker-compose.yml"
     mode: "0644"
+  when: cloudflared_tunnel_token | length > 0
 
 - name: Deploy .env
   ansible.builtin.template:
@@ -23,13 +24,16 @@
     dest: "/home/{{ ansible_user }}/cloudflared/.env"
     mode: "0600"
   no_log: true
+  when: cloudflared_tunnel_token | length > 0
 
 - name: Create shared Immich public network
   community.docker.docker_network:
     name: "{{ immich_public_network }}"
     state: present
+  when: cloudflared_tunnel_token | length > 0
 
 - name: Start cloudflared stack
   community.docker.docker_compose_v2:
     project_src: "/home/{{ ansible_user }}/cloudflared"
     state: present
+  when: cloudflared_tunnel_token | length > 0

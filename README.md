@@ -39,11 +39,12 @@ All variables are in `group_vars/rpi.yml`. Most are driven by environment variab
 | `IMMICH_PUBLISHED_HOST` | `127.0.0.1` | No | Host interface for private Immich port publishing |
 | `IMMICH_PUBLISHED_PORT` | `2283` | No | Host port for private Immich |
 | `IMMICH_PUBLIC_NETWORK` | `immich_public` | No | Shared Docker network between Immich and Immich Public Proxy |
-| `IMMICH_PUBLIC_PROXY_VERSION` | `1.15.6` | No | immich-public-proxy Docker image tag |
+| `IMMICH_PUBLIC_PROXY_VERSION` | `2.5.0` | No | immich-public-proxy Docker image tag |
 | `IMMICH_PUBLIC_PROXY_PUBLIC_BASE_URL` | `https://photos.vinayakakv.com` | No | Public URL used in shared Immich links |
 | `IMMICH_PUBLIC_PROXY_HOST` | `127.0.0.1` | No | Host interface for immich-public-proxy port publishing |
 | `IMMICH_PUBLIC_PROXY_PORT` | `3000` | No | Host port for immich-public-proxy |
 | `IMMICH_PUBLIC_PROXY_ALLOW_DOWNLOAD_ALL` | `1` | No | Download-all behavior: `0` disables, `1` follows Immich share setting, `2` always allows |
+| `IMMICH_PUBLIC_PROXY_LIGHTBOX_SHOW_DOWNLOAD` | `true` | No | Show the lightbox download button when downloads are allowed |
 | `CLOUDFLARED_VERSION` | `2026.6.0` | No | cloudflared Docker image tag |
 | `CLOUDFLARED_TUNNEL_TOKEN` | _(none)_ | Yes | Token from the Cloudflare Tunnel setup screen |
 | `TZ` | _(UTC)_ | No | Timezone for Immich containers (e.g. `Europe/London`) |

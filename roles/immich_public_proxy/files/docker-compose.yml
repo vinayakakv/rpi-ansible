@@ -3,7 +3,7 @@ name: immich-public-proxy
 services:
   immich-public-proxy:
     container_name: immich_public_proxy
-    image: alangrainger/immich-public-proxy:${IMMICH_PUBLIC_PROXY_VERSION:-1.15.6}
+    image: alangrainger/immich-public-proxy:${IMMICH_PUBLIC_PROXY_VERSION:-2.5.0}
     environment:
       PUBLIC_BASE_URL: ${IMMICH_PUBLIC_PROXY_PUBLIC_BASE_URL}
       IMMICH_URL: http://immich-server:2283

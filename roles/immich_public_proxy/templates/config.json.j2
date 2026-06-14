@@ -1,5 +1,14 @@
 {
   "ipp": {
-    "allowDownloadAll": {{ immich_public_proxy_allow_download_all | int }}
+    "allowDownloadAll": {{ immich_public_proxy_allow_download_all | int }},
+    "lightbox": {
+      "showDownload": {{ immich_public_proxy_lightbox_show_download | bool | lower }}
+    }
+  },
+  "lightGallery": {
+    "download": false,
+    "mobileSettings": {
+      "download": false
+    }
   }
 }
