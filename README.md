@@ -36,7 +36,7 @@ All variables are in `group_vars/rpi.yml`. Most are driven by environment variab
 | `IMMICH_UPLOAD_LOCATION` | `/mnt/photos/immich` | No | Path where Immich stores uploaded photos and videos |
 | `IMMICH_DB_DATA_LOCATION` | `/home/pi/immich/postgres` | No | Path where Postgres data is stored (must be local, not a network share) |
 | `IMMICH_VERSION` | `release` | No | Immich version to deploy (e.g. `v2.6.3`) |
-| `IMMICH_PUBLISHED_HOST` | `127.0.0.1` | No | Host interface for private Immich port publishing |
+| `IMMICH_PUBLISHED_HOST` | `tailscale` | No | Host interface for private Immich port publishing; `tailscale` auto-detects the Pi's Tailscale IPv4 |
 | `IMMICH_PUBLISHED_PORT` | `2283` | No | Host port for private Immich |
 | `IMMICH_PUBLIC_NETWORK` | `immich_public` | No | Shared Docker network between Immich and Immich Public Proxy |
 | `IMMICH_PUBLIC_PROXY_VERSION` | `2.5.0` | No | immich-public-proxy Docker image tag |
@@ -64,9 +64,9 @@ ansible-playbook playbook.yml --ask-pass --ask-become-pass --ask-vault-pass
 
 ## Immich
 
-Available at `http://127.0.0.1:2283` on the Pi after the playbook completes. This keeps the full Immich app off the public network path by default.
+Available at `http://<pi-tailscale-ip>:2283` after the playbook completes. This keeps the full Immich app off the public network path by default while allowing private tailnet access.
 
-Set `IMMICH_PUBLISHED_HOST` to a specific private interface, such as the Pi's Tailscale IP, if you want private remote access to the full Immich app without binding it on every interface.
+Set `IMMICH_PUBLISHED_HOST=127.0.0.1` if you want Immich reachable only from the Pi itself, or `IMMICH_PUBLISHED_HOST=0.0.0.0` if you intentionally want it bound on every interface.
 
 ## Immich Public Proxy
 

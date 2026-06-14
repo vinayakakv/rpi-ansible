@@ -22,7 +22,7 @@ immich_db_password: !vault |
           6465666137643131313530313234623466623234613833323633
 immich_version: "v2.7.5"
 immich_tz: "{{ lookup('env', 'TZ') | default('', true) }}"
-immich_published_host: "{{ lookup('env', 'IMMICH_PUBLISHED_HOST') | default('127.0.0.1', true) }}"
+immich_published_host: "{{ lookup('env', 'IMMICH_PUBLISHED_HOST') | default('tailscale', true) }}"
 immich_published_port: "{{ lookup('env', 'IMMICH_PUBLISHED_PORT') | default('2283', true) }}"
 immich_public_network: "{{ lookup('env', 'IMMICH_PUBLIC_NETWORK') | default('immich_public', true) }}"
 immich_public_proxy_version: "{{ lookup('env', 'IMMICH_PUBLIC_PROXY_VERSION') | default('2.5.0', true) }}"

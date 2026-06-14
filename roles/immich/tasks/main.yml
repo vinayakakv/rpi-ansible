@@ -11,6 +11,35 @@
     dest: "/home/{{ ansible_user }}/immich/docker-compose.yml"
     mode: "0644"
 
+- name: Detect Tailscale IPv4 for Immich published host
+  ansible.builtin.command: tailscale ip -4
+  register: immich_tailscale_ip
+  changed_when: false
+  failed_when: false
+  when: immich_published_host == 'tailscale'
+
+- name: Fail if Tailscale IPv4 is unavailable for Immich
+  ansible.builtin.fail:
+    msg: "IMMICH_PUBLISHED_HOST defaults to 'tailscale', but no Tailscale IPv4 is available on this host. Start Tailscale or override IMMICH_PUBLISHED_HOST."
+  when:
+    - immich_published_host == 'tailscale'
+    - immich_tailscale_ip.rc != 0 or immich_tailscale_ip.stdout | trim == ''
+
+- name: Set effective Immich published host
+  ansible.builtin.set_fact:
+    immich_effective_published_host: "{{ (immich_tailscale_ip.stdout | trim) if immich_published_host == 'tailscale' else immich_published_host }}"
+
+- name: Read local IPv4 addresses
+  ansible.builtin.command: ip -o -4 addr show
+  register: immich_local_ipv4_addresses
+  changed_when: false
+
+- name: Validate Immich published host is assigned locally
+  ansible.builtin.assert:
+    that:
+      - immich_effective_published_host == '0.0.0.0' or immich_effective_published_host in immich_local_ipv4_addresses.stdout
+    fail_msg: "Immich published host {{ immich_effective_published_host }} is not assigned to this host. Use the Pi's Tailscale IP, 127.0.0.1, or 0.0.0.0."
+
 - name: Deploy .env
   ansible.builtin.template:
     src: .env.j2
