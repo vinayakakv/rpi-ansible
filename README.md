@@ -38,7 +38,8 @@ All variables are in `group_vars/rpi.yml`. Most are driven by environment variab
 | `IMMICH_VERSION` | `release` | No | Immich version to deploy (e.g. `v2.6.3`) |
 | `IMMICH_PUBLISHED_HOST` | `tailscale` | No | Host interface for private Immich port publishing; `tailscale` auto-detects the Pi's Tailscale IPv4 |
 | `IMMICH_PUBLISHED_PORT` | `2283` | No | Host port for private Immich |
-| `IMMICH_PUBLIC_NETWORK` | `immich_public` | No | Shared Docker network between Immich and Immich Public Proxy |
+| `IMMICH_INTERNAL_NETWORK` | `immich_default` | No | Immich Docker network used by Immich Public Proxy to reach Immich |
+| `IMMICH_PUBLIC_NETWORK` | `immich_public` | No | Shared Docker network between Immich Public Proxy and Cloudflare Tunnel |
 | `IMMICH_PUBLIC_PROXY_VERSION` | `2.5.0` | No | immich-public-proxy Docker image tag |
 | `IMMICH_PUBLIC_PROXY_PUBLIC_BASE_URL` | `https://photos.vinayakakv.com` | No | Public URL used in shared Immich links |
 | `IMMICH_PUBLIC_PROXY_HOST` | `127.0.0.1` | No | Host interface for immich-public-proxy port publishing |
@@ -72,7 +73,7 @@ Set `IMMICH_PUBLISHED_HOST=127.0.0.1` if you want Immich reachable only from the
 
 Public shared links are served by `immich-public-proxy` at `http://127.0.0.1:3000` on the Pi by default. Put a public HTTPS tunnel or reverse proxy in front of that local endpoint for `https://photos.vinayakakv.com`.
 
-Immich Public Proxy runs as a separate Docker Compose project from Immich. Both projects join the shared external Docker network named by `IMMICH_PUBLIC_NETWORK`, and the proxy talks to Immich at `http://immich-server:2283` over that private Docker network.
+Immich Public Proxy runs as a separate Docker Compose project from Immich. It joins the Immich internal network named by `IMMICH_INTERNAL_NETWORK` to reach `http://immich-server:2283`, and it joins `IMMICH_PUBLIC_NETWORK` so Cloudflare Tunnel can reach the proxy.
 
 ## Cloudflare Tunnel
 

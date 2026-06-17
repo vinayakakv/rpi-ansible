@@ -15,9 +15,6 @@ services:
       default:
         aliases:
           - immich-server
-      immich_public:
-        aliases:
-          - immich-server
     depends_on:
       - redis
       - database
@@ -77,6 +74,3 @@ volumes:
 networks:
   default:
     name: immich_default
-  immich_public:
-    name: ${IMMICH_PUBLIC_NETWORK:-immich_public}
-    external: true

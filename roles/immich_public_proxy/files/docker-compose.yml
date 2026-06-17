@@ -12,6 +12,9 @@ services:
     ports:
       - '${IMMICH_PUBLIC_PROXY_HOST:-127.0.0.1}:${IMMICH_PUBLIC_PROXY_PORT:-3000}:3000'
     networks:
+      immich_internal:
+        aliases:
+          - immich-public-proxy
       immich_public:
         aliases:
           - immich-public-proxy
@@ -22,6 +25,9 @@ services:
       timeout: 5s
 
 networks:
+  immich_internal:
+    name: ${IMMICH_INTERNAL_NETWORK:-immich_default}
+    external: true
   immich_public:
     name: ${IMMICH_PUBLIC_NETWORK:-immich_public}
     external: true
