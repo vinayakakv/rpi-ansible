@@ -46,13 +46,38 @@
     dest: "/home/{{ ansible_user }}/immich/.env"
     mode: "0600"
 
-- name: Create shared Immich public network
-  community.docker.docker_network:
-    name: "{{ immich_public_network }}"
-    state: present
+- name: Disable old Immich boot reconciliation service
+  ansible.builtin.systemd:
+    name: immich-compose-reconcile.service
+    enabled: false
+    state: stopped
+    daemon_reload: true
+  failed_when: false
+
+- name: Remove old Immich boot reconciliation service
+  ansible.builtin.file:
+    path: /etc/systemd/system/immich-compose-reconcile.service
+    state: absent
+
+- name: Deploy Immich Compose systemd service
+  ansible.builtin.template:
+    src: immich-compose.service.j2
+    dest: /etc/systemd/system/immich-compose.service
+    mode: "0644"
+
+- name: Enable Immich Compose systemd service
+  ansible.builtin.systemd:
+    name: immich-compose.service
+    enabled: true
+    daemon_reload: true
 
 - name: Start Immich stack
   community.docker.docker_compose_v2:
     project_src: "/home/{{ ansible_user }}/immich"
     state: present
     remove_orphans: true
+
+- name: Mark Immich Compose systemd service as started
+  ansible.builtin.systemd:
+    name: immich-compose.service
+    state: started

@@ -18,7 +18,7 @@ services:
     depends_on:
       - redis
       - database
-    restart: always
+    restart: on-failure
     healthcheck:
       disable: false
 
@@ -33,7 +33,7 @@ services:
       default:
         aliases:
           - immich-machine-learning
-    restart: always
+    restart: on-failure
     healthcheck:
       disable: false
 
@@ -46,7 +46,7 @@ services:
       default:
         aliases:
           - redis
-    restart: always
+    restart: on-failure
 
   database:
     container_name: immich_postgres
@@ -64,7 +64,7 @@ services:
         aliases:
           - database
     shm_size: 128mb
-    restart: always
+    restart: on-failure
     healthcheck:
       disable: false
 

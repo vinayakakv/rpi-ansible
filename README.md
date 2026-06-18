@@ -69,6 +69,8 @@ Available at `http://<pi-tailscale-ip>:2283` after the playbook completes. This 
 
 Set `IMMICH_PUBLISHED_HOST=127.0.0.1` if you want Immich reachable only from the Pi itself, or `IMMICH_PUBLISHED_HOST=0.0.0.0` if you intentionally want it bound on every interface.
 
+The Immich role also installs `immich-compose.service`, a boot-time systemd unit that runs `docker compose up -d` after Docker, networking, and Tailscale are available. Immich containers use `restart: on-failure`, so Docker does not independently start them before Compose can establish the project network and service DNS.
+
 ## Immich Public Proxy
 
 Public shared links are served by `immich-public-proxy` at `http://127.0.0.1:3000` on the Pi by default. Put a public HTTPS tunnel or reverse proxy in front of that local endpoint for `https://photos.vinayakakv.com`.
