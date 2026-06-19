@@ -7,7 +7,7 @@ Wants=network-online.target tailscaled.service
 [Service]
 Type=oneshot
 WorkingDirectory=/home/{{ ansible_user }}/immich
-ExecStart=/usr/bin/docker compose up -d
+ExecStart=/usr/bin/docker compose up -d --force-recreate --wait --wait-timeout 300
 ExecStop=/usr/bin/docker compose stop
 RemainAfterExit=yes
 

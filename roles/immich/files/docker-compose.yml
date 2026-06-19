@@ -16,8 +16,10 @@ services:
         aliases:
           - immich-server
     depends_on:
-      - redis
-      - database
+      redis:
+        condition: service_healthy
+      database:
+        condition: service_healthy
     restart: on-failure
     healthcheck:
       disable: false
