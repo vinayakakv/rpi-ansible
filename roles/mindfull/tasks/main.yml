@@ -1,0 +1,34 @@
+---
+- name: Warn when Mindfull pairing code is not set
+  ansible.builtin.debug:
+    msg: "Skipping mindfull role because the vault variable mindfull_pairing_code is not set."
+  when: (mindfull_pairing_code | default('')) | length == 0
+
+- name: Create mindfull directory
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/mindfull"
+    state: directory
+    mode: "0755"
+  when: (mindfull_pairing_code | default('')) | length > 0
+
+- name: Deploy docker-compose.yml
+  ansible.builtin.copy:
+    src: docker-compose.yml
+    dest: "/home/{{ ansible_user }}/mindfull/docker-compose.yml"
+    mode: "0644"
+  when: (mindfull_pairing_code | default('')) | length > 0
+
+- name: Deploy .env
+  ansible.builtin.template:
+    src: .env.j2
+    dest: "/home/{{ ansible_user }}/mindfull/.env"
+    mode: "0600"
+  no_log: true
+  when: (mindfull_pairing_code | default('')) | length > 0
+
+- name: Start mindfull stack
+  community.docker.docker_compose_v2:
+    project_src: "/home/{{ ansible_user }}/mindfull"
+    state: present
+    remove_orphans: true
+  when: (mindfull_pairing_code | default('')) | length > 0

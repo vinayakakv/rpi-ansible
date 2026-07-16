@@ -14,5 +14,7 @@
       tags: immich
     - role: immich_public_proxy
       tags: immich_public_proxy
+    - role: mindfull
+      tags: mindfull
     - role: cloudflared
       tags: cloudflared

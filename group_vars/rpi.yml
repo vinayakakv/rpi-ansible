@@ -32,5 +32,15 @@ immich_public_proxy_host: "{{ lookup('env', 'IMMICH_PUBLIC_PROXY_HOST') | defaul
 immich_public_proxy_port: "{{ lookup('env', 'IMMICH_PUBLIC_PROXY_PORT') | default('3000', true) }}"
 immich_public_proxy_allow_download_all: "{{ lookup('env', 'IMMICH_PUBLIC_PROXY_ALLOW_DOWNLOAD_ALL') | default('1', true) }}"
 immich_public_proxy_lightbox_show_download: "{{ lookup('env', 'IMMICH_PUBLIC_PROXY_LIGHTBOX_SHOW_DOWNLOAD') | default('true', true) }}"
+mindfull_version: "{{ lookup('env', 'MINDFULL_VERSION') | default('latest', true) }}"
+mindfull_bind_address: "{{ lookup('env', 'MINDFULL_BIND_ADDRESS') | default(ansible_host, true) }}"
+mindfull_port: "{{ lookup('env', 'MINDFULL_PORT') | default('3001', true) }}"
 cloudflared_version: "{{ lookup('env', 'CLOUDFLARED_VERSION') | default('2026.6.0', true) }}"
 cloudflared_tunnel_token: "{{ lookup('env', 'CLOUDFLARED_TUNNEL_TOKEN') | default('', true) }}"
+mindfull_pairing_code: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          64326265336363646665343136666136373831356561623336616139653431346330313931326133
+          6232336164613466356132636162393138613566323438390a653337303230623239373161656566
+          38666538383136323831663965363065356466313538346232313138336263653463613932346462
+          3966343062316639390a373432613337363366386432343865343438363831313635393937633734
+          64326261336336653466306235343762646436396432363139383065643136653936

@@ -1,6 +1,6 @@
 # rpi-ansible
 
-Ansible playbook to configure a Raspberry Pi with Docker, Immich, Immich Public Proxy, Cloudflare Tunnel, and Tailscale.
+Ansible playbook to configure a Raspberry Pi with Docker, Immich, Immich Public Proxy, Mindfull, Cloudflare Tunnel, and Tailscale.
 
 ## Prerequisites
 
@@ -20,6 +20,7 @@ Ansible playbook to configure a Raspberry Pi with Docker, Immich, Immich Public 
 | `tailscale` | Installs Tailscale, joins the tailnet |
 | `immich` | Deploys Immich via Docker Compose |
 | `immich_public_proxy` | Deploys Immich Public Proxy via a separate Docker Compose project |
+| `mindfull` | Deploys Mindfull via a separate Docker Compose project |
 | `cloudflared` | Deploys Cloudflare Tunnel via a separate Docker Compose project |
 
 ## Configuration
@@ -46,12 +47,18 @@ All variables are in `group_vars/rpi.yml`. Most are driven by environment variab
 | `IMMICH_PUBLIC_PROXY_PORT` | `3000` | No | Host port for immich-public-proxy |
 | `IMMICH_PUBLIC_PROXY_ALLOW_DOWNLOAD_ALL` | `1` | No | Download-all behavior: `0` disables, `1` follows Immich share setting, `2` always allows |
 | `IMMICH_PUBLIC_PROXY_LIGHTBOX_SHOW_DOWNLOAD` | `true` | No | Show the lightbox download button when downloads are allowed |
+| `MINDFULL_VERSION` | `latest` | No | Mindfull Docker image tag; prefer an immutable `sha-<commit>` tag when available |
+| `MINDFULL_BIND_ADDRESS` | `RPI_HOST` | No | Host interface for Mindfull port publishing; set `RPI_HOST` to the Pi's Tailscale IP for tailnet access |
+| `MINDFULL_PORT` | `3001` | No | Host port for Mindfull |
 | `CLOUDFLARED_VERSION` | `2026.6.0` | No | cloudflared Docker image tag |
 | `CLOUDFLARED_TUNNEL_TOKEN` | _(none)_ | Yes | Token from the Cloudflare Tunnel setup screen |
 | `TZ` | _(UTC)_ | No | Timezone for Immich containers (e.g. `Europe/London`) |
 
 `immich_db_password` is stored as an Ansible Vault encrypted value in `group_vars/rpi.yml`.
 To set it: `ansible-vault encrypt_string 'yourpassword' --name 'immich_db_password'`
+
+`mindfull_pairing_code` should also be stored as an Ansible Vault encrypted value in `group_vars/rpi.yml`.
+To set it: `ansible-vault encrypt_string 'replace-with-a-long-random-value' --name 'mindfull_pairing_code'`
 
 ## Run
 
@@ -76,6 +83,14 @@ The Immich role also installs `immich-compose.service`, a boot-time systemd unit
 Public shared links are served by `immich-public-proxy` at `http://127.0.0.1:3000` on the Pi by default. Put a public HTTPS tunnel or reverse proxy in front of that local endpoint for `https://photos.vinayakakv.com`.
 
 Immich Public Proxy runs as a separate Docker Compose project from Immich. It joins the Immich internal network named by `IMMICH_INTERNAL_NETWORK` to reach `http://immich-server:2283`, and it joins `IMMICH_PUBLIC_NETWORK` so Cloudflare Tunnel can reach the proxy.
+
+## Mindfull
+
+Mindfull runs from `ghcr.io/vinayakakv/mind-full` as a separate Docker Compose project under `/home/<user>/mindfull`.
+
+By default it binds to `RPI_HOST:3001`. Set `RPI_HOST` to the Pi's Tailscale IP to make Mindfull reachable at `http://<pi-tailscale-ip>:3001`, or override `MINDFULL_BIND_ADDRESS` directly.
+
+The role is skipped unless the vault variable `mindfull_pairing_code` is set.
 
 ## Cloudflare Tunnel
 
