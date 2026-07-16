@@ -48,7 +48,7 @@ All variables are in `group_vars/rpi.yml`. Most are driven by environment variab
 | `IMMICH_PUBLIC_PROXY_ALLOW_DOWNLOAD_ALL` | `1` | No | Download-all behavior: `0` disables, `1` follows Immich share setting, `2` always allows |
 | `IMMICH_PUBLIC_PROXY_LIGHTBOX_SHOW_DOWNLOAD` | `true` | No | Show the lightbox download button when downloads are allowed |
 | `MINDFULL_VERSION` | `latest` | No | Mindfull Docker image tag; prefer an immutable `sha-<commit>` tag when available |
-| `MINDFULL_BIND_ADDRESS` | `RPI_HOST` | No | Host interface for Mindfull port publishing; set `RPI_HOST` to the Pi's Tailscale IP for tailnet access |
+| `MINDFULL_BIND_ADDRESS` | `0.0.0.0` | No | Host interface for Mindfull port publishing |
 | `MINDFULL_PORT` | `3001` | No | Host port for Mindfull |
 | `CLOUDFLARED_VERSION` | `2026.6.0` | No | cloudflared Docker image tag |
 | `CLOUDFLARED_TUNNEL_TOKEN` | _(none)_ | Yes | Token from the Cloudflare Tunnel setup screen |
@@ -88,7 +88,7 @@ Immich Public Proxy runs as a separate Docker Compose project from Immich. It jo
 
 Mindfull runs from `ghcr.io/vinayakakv/mind-full` as a separate Docker Compose project under `/home/<user>/mindfull`.
 
-By default it binds to `RPI_HOST:3001`. Set `RPI_HOST` to the Pi's Tailscale IP to make Mindfull reachable at `http://<pi-tailscale-ip>:3001`, or override `MINDFULL_BIND_ADDRESS` directly.
+By default it binds to `0.0.0.0:3001`, so it is reachable on the Pi's LAN and Tailscale addresses at `http://<pi-ip>:3001`.
 
 The role is skipped unless the vault variable `mindfull_pairing_code` is set.
 

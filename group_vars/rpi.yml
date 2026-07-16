@@ -33,7 +33,7 @@ immich_public_proxy_port: "{{ lookup('env', 'IMMICH_PUBLIC_PROXY_PORT') | defaul
 immich_public_proxy_allow_download_all: "{{ lookup('env', 'IMMICH_PUBLIC_PROXY_ALLOW_DOWNLOAD_ALL') | default('1', true) }}"
 immich_public_proxy_lightbox_show_download: "{{ lookup('env', 'IMMICH_PUBLIC_PROXY_LIGHTBOX_SHOW_DOWNLOAD') | default('true', true) }}"
 mindfull_version: "{{ lookup('env', 'MINDFULL_VERSION') | default('latest', true) }}"
-mindfull_bind_address: "{{ lookup('env', 'MINDFULL_BIND_ADDRESS') | default(ansible_host, true) }}"
+mindfull_bind_address: "{{ lookup('env', 'MINDFULL_BIND_ADDRESS') | default('0.0.0.0', true) }}"
 mindfull_port: "{{ lookup('env', 'MINDFULL_PORT') | default('3001', true) }}"
 cloudflared_version: "{{ lookup('env', 'CLOUDFLARED_VERSION') | default('2026.6.0', true) }}"
 cloudflared_tunnel_token: "{{ lookup('env', 'CLOUDFLARED_TUNNEL_TOKEN') | default('', true) }}"
