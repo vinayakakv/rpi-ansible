@@ -36,7 +36,7 @@ All variables are in `group_vars/rpi.yml`. Most are driven by environment variab
 | `TAILSCALE_AUTH_KEY` | _(none)_ | Yes | Auth key from the Tailscale admin console (Settings → Keys) |
 | `IMMICH_UPLOAD_LOCATION` | `/mnt/photos/immich` | No | Path where Immich stores uploaded photos and videos |
 | `IMMICH_DB_DATA_LOCATION` | `/home/pi/immich/postgres` | No | Path where Postgres data is stored (must be local, not a network share) |
-| `IMMICH_VERSION` | `release` | No | Immich version to deploy (e.g. `v3.0.2`) |
+| `IMMICH_VERSION` | `v3.0.3` | No | Immich version to deploy |
 | `IMMICH_PUBLISHED_HOST` | `tailscale` | No | Host interface for private Immich port publishing; `tailscale` auto-detects the Pi's Tailscale IPv4 |
 | `IMMICH_PUBLISHED_PORT` | `2283` | No | Host port for private Immich |
 | `IMMICH_INTERNAL_NETWORK` | `immich_default` | No | Immich Docker network used by Immich Public Proxy to reach Immich |
