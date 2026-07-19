@@ -50,6 +50,11 @@ All variables are in `group_vars/rpi.yml`. Most are driven by environment variab
 | `MINDFULL_VERSION` | `latest` | No | Mindfull Docker image tag; prefer an immutable `sha-<commit>` tag when available |
 | `MINDFULL_BIND_ADDRESS` | `0.0.0.0` | No | Host interface for Mindfull port publishing |
 | `MINDFULL_PORT` | `3001` | No | Host port for Mindfull |
+| `MINDFULL_BACKUP_PATH` | `/mnt/photos/mindfull/backups` | No | Host directory for Mindfull SQLite snapshots |
+| `MINDFULL_TIMEZONE` | `Asia/Kolkata` | No | Timezone used by the Mindfull backup scheduler |
+| `BACKUP_LOCAL_TIME` | `03:00` | No | Daily backup time in `MINDFULL_TIMEZONE` |
+| `BACKUP_DAILY_RETENTION` | `7` | No | Number of recent daily backups to retain |
+| `BACKUP_WEEKLY_RETENTION` | `4` | No | Number of older weekly backups to retain |
 | `CLOUDFLARED_VERSION` | `2026.6.0` | No | cloudflared Docker image tag |
 | `CLOUDFLARED_TUNNEL_TOKEN` | _(none)_ | Yes | Token from the Cloudflare Tunnel setup screen |
 | `TZ` | _(UTC)_ | No | Timezone for Immich containers (e.g. `Europe/London`) |
@@ -89,6 +94,8 @@ Immich Public Proxy runs as a separate Docker Compose project from Immich. It jo
 Mindfull runs from `ghcr.io/vinayakakv/mind-full` as a separate Docker Compose project under `/home/<user>/mindfull`.
 
 By default it binds to `0.0.0.0:3001`, so it is reachable on the Pi's LAN and Tailscale addresses at `http://<pi-ip>:3001`.
+
+Daily SQLite snapshots are stored at `/mnt/photos/mindfull/backups` by default. This is on the same mounted disk as Immich but outside Immich's `/mnt/photos/immich` data directory. The live Mindfull database remains in its separate Docker volume.
 
 The role is skipped unless the vault variable `mindfull_pairing_code` is set.
 

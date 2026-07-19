@@ -11,6 +11,15 @@
     mode: "0755"
   when: (mindfull_pairing_code | default('')) | length > 0
 
+- name: Create Mindfull backup directory
+  ansible.builtin.file:
+    path: "{{ mindfull_backup_path }}"
+    state: directory
+    owner: "1000"
+    group: "1000"
+    mode: "0750"
+  when: (mindfull_pairing_code | default('')) | length > 0
+
 - name: Deploy docker-compose.yml
   ansible.builtin.copy:
     src: docker-compose.yml

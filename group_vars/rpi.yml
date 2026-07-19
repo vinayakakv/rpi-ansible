@@ -35,6 +35,11 @@ immich_public_proxy_lightbox_show_download: "{{ lookup('env', 'IMMICH_PUBLIC_PRO
 mindfull_version: "{{ lookup('env', 'MINDFULL_VERSION') | default('latest', true) }}"
 mindfull_bind_address: "{{ lookup('env', 'MINDFULL_BIND_ADDRESS') | default('0.0.0.0', true) }}"
 mindfull_port: "{{ lookup('env', 'MINDFULL_PORT') | default('3001', true) }}"
+mindfull_backup_path: "{{ lookup('env', 'MINDFULL_BACKUP_PATH') | default(photos_mount_path ~ '/mindfull/backups', true) }}"
+mindfull_timezone: "{{ lookup('env', 'MINDFULL_TIMEZONE') | default('Asia/Kolkata', true) }}"
+mindfull_backup_local_time: "{{ lookup('env', 'BACKUP_LOCAL_TIME') | default('03:00', true) }}"
+mindfull_backup_daily_retention: "{{ lookup('env', 'BACKUP_DAILY_RETENTION') | default('7', true) }}"
+mindfull_backup_weekly_retention: "{{ lookup('env', 'BACKUP_WEEKLY_RETENTION') | default('4', true) }}"
 cloudflared_version: "{{ lookup('env', 'CLOUDFLARED_VERSION') | default('2026.6.0', true) }}"
 cloudflared_tunnel_token: "{{ lookup('env', 'CLOUDFLARED_TUNNEL_TOKEN') | default('', true) }}"
 mindfull_pairing_code: !vault |
