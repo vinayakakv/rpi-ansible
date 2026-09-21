@@ -36,7 +36,7 @@ All variables are in `group_vars/rpi.yml`. Most are driven by environment variab
 | `TAILSCALE_AUTH_KEY` | _(none)_ | Yes | Auth key from the Tailscale admin console (Settings → Keys) |
 | `IMMICH_UPLOAD_LOCATION` | `/mnt/photos/immich` | No | Path where Immich stores uploaded photos and videos |
 | `IMMICH_DB_DATA_LOCATION` | `/home/pi/immich/postgres` | No | Path where Postgres data is stored (must be local, not a network share) |
-| `IMMICH_VERSION` | `v3.0.3` | No | Immich version to deploy |
+| `IMMICH_VERSION` | `v3.1.0` | No | Immich version to deploy |
 | `IMMICH_PUBLISHED_HOST` | `tailscale` | No | Host interface for private Immich port publishing; `tailscale` auto-detects the Pi's Tailscale IPv4 |
 | `IMMICH_PUBLISHED_PORT` | `2283` | No | Host port for private Immich |
 | `IMMICH_INTERNAL_NETWORK` | `immich_default` | No | Immich Docker network used by Immich Public Proxy to reach Immich |
@@ -57,7 +57,7 @@ All variables are in `group_vars/rpi.yml`. Most are driven by environment variab
 | `BACKUP_WEEKLY_RETENTION` | `4` | No | Number of older weekly backups to retain |
 | `CLOUDFLARED_VERSION` | `2026.6.0` | No | cloudflared Docker image tag |
 | `CLOUDFLARED_TUNNEL_TOKEN` | _(none)_ | Yes | Token from the Cloudflare Tunnel setup screen |
-| `TZ` | _(UTC)_ | No | Timezone for Immich containers (e.g. `Europe/London`) |
+| `TZ` | `Asia/Kolkata` | No | Timezone for Immich containers (e.g. `Europe/London`) |
 
 `immich_db_password` is stored as an Ansible Vault encrypted value in `group_vars/rpi.yml`.
 To set it: `ansible-vault encrypt_string 'yourpassword' --name 'immich_db_password'`
